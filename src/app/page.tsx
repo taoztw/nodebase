@@ -1,7 +1,13 @@
-import prisma from "@/lib/db";
+import SignOutButton from "@/feature/auth/components/signOutButton";
+import { requireAuth } from "@/lib/auth-utils";
 
 export default async function Home() {
-	const users = await prisma.user.findMany();
+	await requireAuth();
 
-	return <div>{JSON.stringify(users)}</div>;
+	return (
+		<div>
+			Home
+			<SignOutButton />
+		</div>
+	);
 }
