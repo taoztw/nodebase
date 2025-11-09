@@ -5,6 +5,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import { authClient } from "@/lib/auth-client";
 import { zodResolver } from "@hookform/resolvers/zod";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
@@ -68,9 +69,11 @@ export function RegisteForm() {
 							<div className="grid gap-6">
 								<div className="flex flex-col gap-4">
 									<Button variant="outline" className="w-full" type="button" disabled={isPending}>
+										<Image src="/logo/github.svg" alt="GitHub" width={18} height={18} />
 										Continue with Github
 									</Button>
 									<Button variant="outline" className="w-full" type="button" disabled={isPending}>
+										<Image src="/logo/google.svg" alt="Google" width={18} height={18} />
 										Continue with Google
 									</Button>
 								</div>
