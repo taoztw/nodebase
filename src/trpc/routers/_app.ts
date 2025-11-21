@@ -5,6 +5,12 @@ export const appRouter = createTRPCRouter({
 	getUsers: baseProcedure.query(opts => {
 		return prisma.user.findMany();
 	}),
+	testAi: baseProcedure.mutation(async () => {
+		await inngest.send({
+			name: "execute/ai",
+			data: {}
+		});
+	}),
 	createWorkflow: baseProcedure.mutation(async () => {
 		await inngest.send({
 			name: "test/hello.world",

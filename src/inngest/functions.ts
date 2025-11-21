@@ -1,32 +1,18 @@
-import prisma from "@/lib/db";
+import { azure } from "@/lib/llms";
+import { generateText } from "ai";
 import { inngest } from "./client";
 
-export const helloWorld = inngest.createFunction(
-	{ id: "hello-world", retries: 3 },
-	{ event: "test/hello.world" },
+export const execute = inngest.createFunction(
+	{ id: "execute-ai" },
+	{ event: "execute/ai" },
 	async ({ event, step, attempt, logger }) => {
-		logger.info(`Function started - Attempt ${attempt}`);
-
-		// 使用较短的 sleep 时间进行测试
-		await step.sleep("parse files", "3s");
-
-		const workflow = await step.run("create_workflow", async () => {
-			logger.info("Creating workflow...");
-
-			return await prisma.workflow.create({
-				data: {
-					id: `workflow_${Date.now()}`,
-					name: `New Workflow_${Date.now()}`
-				}
-			});
+		const { steps } = await step.ai.wrap("gpt5-generate-text", generateText, {
+			model: azure("gpt-5-chat"),
+			system: "You are a helpful assistant",
+			prompt: "What is 2+2?"
 		});
-
-		logger.info(`Workflow created: ${workflow.id}`);
-
 		return {
-			message: `Hello ${event.data.email}!`,
-			workflowId: workflow.id,
-			attempt
+			steps
 		};
 	}
 );
