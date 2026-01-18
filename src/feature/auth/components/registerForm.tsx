@@ -48,6 +48,7 @@ export function RegisteForm() {
 			{
 				onSuccess: () => {
 					toast.success("注册成功");
+					router.push("/");
 				},
 				onError: ctx => {
 					toast.error(`注册失败: ${ctx.error.message}`);
